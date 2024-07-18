@@ -1,0 +1,657 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    int idPerformance = ViewBag.IdPerformance;
+    var perfil = Session["perfil"];
+    var idUsuario = Session["idUsuario"];
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!-- Estilos de Bootstrap -->
+    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">*@
+
+    <!-- Estilos de DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <!-- JavaScript de jQuery (necesario para DataTables) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        /*Background color*/
+        #grad1 {
+            background-color: #f3f3f3;
+        }
+
+        .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        /*form styles*/
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+        }
+
+            #msform fieldset .form-card {
+                background: white;
+                border: 0 none;
+                border-radius: 0px;
+                box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+                padding: 20px 40px 30px 40px;
+                box-sizing: border-box;
+                width: 94%;
+                margin: 0 3% 20px 3%;
+                /*stacking fieldsets above each other*/
+                position: relative;
+            }
+
+            #msform fieldset {
+                background: white;
+                border: 0 none;
+                border-radius: 0.5rem;
+                box-sizing: border-box;
+                width: 100%;
+                margin: 0;
+                padding-bottom: 20px;
+                /*stacking fieldsets above each other*/
+                position: relative;
+            }
+
+                /*Hide all except first fieldset*/
+                #msform fieldset:not(:first-of-type) {
+                    display: none;
+                }
+
+                #msform fieldset .form-card {
+                    text-align: left;
+                    color: #9E9E9E;
+                }
+
+            #msform input, #msform textarea {
+                padding: 0px 8px 4px 8px;
+                border: none;
+                border-bottom: 1px solid #ccc;
+                border-radius: 0px;
+                margin-bottom: 25px;
+                margin-top: 2px;
+                width: 100%;
+                box-sizing: border-box;
+                font-family: 'Arial', sans-serif;
+                color: #2C3E50;
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+
+                #msform input:focus, #msform textarea:focus {
+                    -moz-box-shadow: none !important;
+                    -webkit-box-shadow: none !important;
+                    box-shadow: none !important;
+                    border: none;
+                    font-weight: bold;
+                    border-bottom: 2px solid skyblue;
+                    outline-width: 0;
+                }
+
+            /*Blue Buttons*/
+            #msform .action-button {
+                width: 150px; /* Cambia el valor según sea necesario */
+                background: #00aec7;
+                font-weight: bold;
+                color: white;
+                border: 0 none;
+                border-radius: 0px;
+                cursor: pointer;
+                padding: 10px 10px; /* Aumenta el valor del padding según sea necesario */
+                margin: 10px 5px;
+            }
+
+
+                #msform .action-button:hover, #msform .action-button:focus {
+                    box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue;
+                }
+
+            /*Previous Buttons*/
+            #msform .action-button-previous {
+                width: 150px;
+                background: #616161;
+                font-weight: bold;
+                color: white;
+                border: 0 none;
+                border-radius: 0px;
+                cursor: pointer;
+                padding: 10px 5px;
+                margin: 10px 5px;
+            }
+
+                #msform .action-button-previous:hover, #msform .action-button-previous:focus {
+                    box-shadow: 0 0 0 2px white, 0 0 0 3px #616161;
+                }
+
+            #msform input.selected {
+                border-bottom: 2px solid skyblue;
+                background-color: rgba(135, 206, 250, 0.2);
+                box-shadow: 0 0 5px skyblue;
+                border: 2px solid skyblue;
+            }
+
+        .boton {
+            border-bottom: 2px solid skyblue !important;
+            background-color: #00aec7 !important;
+            box-shadow: 0 0 5px !important;
+            border: 2px solid !important;
+        }
+        /*Dropdown List Exp Date*/
+        select.list-dt {
+            border: none;
+            outline: 0;
+            border-bottom: 1px solid #ccc;
+            padding: 2px 5px 3px 5px;
+            margin: 2px;
+        }
+
+            select.list-dt:focus {
+                border-bottom: 2px solid skyblue;
+            }
+
+        /*The background card*/
+        .card {
+            z-index: 0;
+            border: none;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        /*FieldSet headings*/
+        .fs-title {
+            font-size: 25px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        /*Fit image in bootstrap div*/
+        .fit-image {
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .form-card {
+            display: inline-block; /* Mostrar los botones en línea */
+        }
+
+            /* Ajuste para el último botón dentro de .form-card */
+            .form-card input[type="button"]:last-child {
+                margin-right: 0; /* Elimina el margen derecho del último botón */
+            }
+
+        /* Estilos para los botones dentro de .form-card */
+        .form-card {
+            display: flex; /* Usar flexbox para alinear los elementos */
+            justify-content: space-between; /* Espacio uniforme entre los elementos */
+        }
+
+            .form-card input[type="button"] {
+                flex: 1; /* Los botones ocupan igualmente todo el espacio disponible */
+                margin-right: 10px; /* Espacio entre los botones */
+            }
+
+                /* Ajuste para el último botón dentro de .form-card */
+                .form-card input[type="button"]:last-child {
+                    margin-right: 0; /* Elimina el margen derecho del último botón */
+                }
+        /* Estilos para los botones dentro de .form-card */
+        .form-card {
+            display: flex; /* Utilizar flexbox para alinear los elementos */
+            flex-direction: column; /* Alinear elementos verticalmente */
+            padding-inline: 5%;
+        }
+
+        .button-container {
+            display: flex; /* Utilizar flexbox para alinear los botones */
+            justify-content: space-between; /* Espaciar uniformemente los botones */
+        }
+
+        .separator {
+            margin-top: 20px; /* Ajustar el margen superior según sea necesario */
+            margin: 0 auto; /* Eliminar los márgenes laterales y centrar el separador */
+            border-bottom: 3px solid #7380C4; /* Aumentar el grosor del borde inferior */
+            padding: 10px 10px; /* Aumentar el espacio interior del separador */
+            color: #034;
+            clear: both;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+
+        .tituloResumen {
+            margin-right: inherit;
+        }
+
+        .titulo {
+            font-size: 18px;
+            text-align: center; /* Justificación a la izquierda */
+            text-transform: uppercase;
+            color: #6c757d; /* Texto secundario */
+            font-weight: 700; /* Negrita */
+            opacity: 1;
+            width: auto; /* Ancho automático */
+            display: inline-block; /* Mostrar en línea */
+            margin-right: 2px; /* Margen derecho */
+        }
+
+        .habilidad {
+            font-size: 18px;
+            text-align: left; /* Justificación a la izquierda */
+            text-transform: uppercase;
+            color: #6c757d; /* Texto secundario */
+            font-weight: 700; /* Negrita */
+            opacity: 1;
+            width: auto; /* Ancho automático */
+            display: inline-block; /* Mostrar en línea */
+            margin-right: 5px; /* Margen derecho */
+        }
+        .container-calificacion{
+
+        }
+
+        .calificacion {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0px;
+            margin-bottom: 25px;
+            margin-top: 2px;
+            width: 15%;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+            .calificacion.selected {
+                border-bottom: 2px solid skyblue;
+                background-color: rgba(135, 206, 250, 0.2);
+                box-shadow: 0 0 5px skyblue;
+                border: 2px solid skyblue;
+            }
+
+            .calificacion.focused {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                border-bottom: 2px solid skyblue;
+                outline-width: 0;
+            }
+
+            .calificacion:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                border-bottom: 2px solid skyblue;
+                outline-width: 0;
+            }
+
+        .fondo {
+            background-color: #e0dddd;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-container {
+            padding: 0; /* Eliminar el padding para ajustar el tamaño al de la tabla */
+            display: inline-block; /* Ajustar el tamaño del contenedor al contenido */
+        }
+
+        .table-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0; /* Eliminar márgenes para evitar que la sombra se salga */
+        }
+
+        .data-container {
+            height: 280px;
+            overflow: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border-left: 1px solid #17AFB6;
+            border-right: 1px solid #17AFB6;
+        }
+
+            td:first-child {
+                border-left: 1px solid #17AFB6;
+            }
+
+            td:last-child {
+                border-right: 1px solid #17AFB6;
+            }
+
+        .comentario-container {
+            /*width: calc(100% - 50px);*/ /* Ajusta el ancho restando los márgenes */
+            padding-right: 50px; /* Espacio a la derecha */
+            padding-left: 50px; /* Espacio a la izquierda */
+            box-sizing: border-box; /* Incluye el padding en el cálculo del ancho */
+        }
+
+        .comentario {
+            font-size: 18px;
+            text-align: justify;
+            color: #6c757d;
+            opacity: 1;
+            margin: 0; /* Eliminar márgenes internos del texto */
+        }
+        .fs-title {
+            font-size: 25px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0px;
+            margin-bottom: 25px;
+            margin-top: 2px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid skyblue;
+                outline-width: 0;
+            }
+    </style>
+
+
+</head>
+<body>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        @*MultiStep Form*@
+        <div class="container-fluid" id="grad1">
+            <button type="button" style="background-color: #00aec7; margin-left: initial" class="btn w-auto my-4 mb-2 text-white" id="volver" onclick="volverAtras();">Volver</button>
+            <div class="row justify-content-center mt-0">
+                <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2 w-80">
+                    <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                        <div class="box-header with-border">
+                            <div class="col-md-14">
+                                <div class="form-group">
+                                    <div class="row" style="margin-top:1%;">
+                                        <p class="h2"><strong>Performance (<span id="ano"></span>)</strong></p>
+                                        <p class="h4">Calibración</p>
+                                        <p class="h4">Esta es la performance del colaborador/a <span id="colaborador"></span>, líder <span id="lider"></span>.</p>
+                                        <div class="table-container" style="border-radius: 15px; overflow: hidden;">
+                                            <table class="table table-sm table-bordered table-shadow" style="height: 60px;">
+                                                <thead align="center" class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #17AFB6, #7fdc7c); color: white; border-color: #17AFB6; width: 30%; border-bottom-left-radius: 15px; border-top-left-radius: 15px; " rowspan="2">HABILIDADES</th>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #7fdc7c, #7fdc7c); color: white; border-color: #3dbb39; width: 35%; " colspan="2">AUTOEVALUACIÓN</th>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #7fdc7c, #17AFBc); color: white; border-color: #17AFB6; width: 35%; border-top-right-radius: 15px;  " colspan="2">EVALUACION LÍDER</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #7fdc7c, #7fdc7c); color: white; border-color: #17AFB6; width: 20%; ">CALIFICACIÓN</th>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #7fdc7c, #7fdc7c); color: white; border-color: #17AFB6; width: 15%; ">FECHA</th>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #7fdc7c, #17AFBc); color: white; border-color: #17AFB6; width: 20%; ">CALIFICACIÓN</th>
+                                                        <th scope="col" style="background-image: linear-gradient(to right, #17AFBc, #17AFBc); color: white; border-color: #17AFB6; width: 15%; border-bottom-right-radius: 15px; ">FECHA</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div style="height: 280px; overflow: auto;">
+                                            <table class="table table-sm table-bordered" id="tablaPerformance">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="mt-4 mb-4" style="padding-inline: 5%; text-align: center;">
+                                            <div style="border-bottom: 1px #c8c8c8 solid">
+
+                                            </div>
+                                        </div>
+                                        <div class="container-calificacion">
+                                            <p class="h4 mb-2">Calificación final</p>
+                                            <input id="g1" class="calificacion m-3 d-inline-block" type="button" data-toggle="tooltip" data-bs-placement="bottom" title="No alcanza el desempeño requerido" value="Regular" />
+                                            <input id="g2" class="calificacion m-3 d-inline-block" type="button" data-toggle="tooltip" data-bs-placement="bottom" title="Alcanza el desempeño mínimo requerido con asistencia" value="A nivel" />
+                                            <input id="g3" class="calificacion m-3" type="button" data-toggle="tooltip" data-bs-placement="bottom" title="Alcanza el desempeño de manera satisfactoria" value="Satisfactorio" />
+                                            <input id="g4" class="calificacion m-3" type="button" data-toggle="tooltip" data-bs-placement="bottom" title="Alcanza el desempeño, dando valor agregado" value="Destacado" />
+                                            <input id="g5" class="calificacion m-3" type="button" data-toggle="tooltip" data-bs-placement="bottom" title="Supera el desempeño requerido" value="Sobresaliente" />
+                                        </div>
+                                        <div class="mt-4" style="padding-inline: 5%; text-align: center;">
+                                            <div style="border-bottom: 1px #c8c8c8 solid">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-card mt-5" id="comentariosCH">
+                                            <h2 class="fs-title">Comentarios Capital Humano</h2>
+                                            <div class="mt-3">
+                                                <textarea id="comentarios" name="comentarios" rows="4" cols="50" placeholder="Ingrese sus comentarios aquí..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="container mt-3 pr-2">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-4 text-center">
+                                                    <a href="#" role="button" class="btn btn-info btn-sm" onclick="AbrirModalEnviar();" id="GuardarCalibración" style="width: auto;">Enviar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*modal preguntar si esta seguro *@
+        <div class="modal" id="modalDeseaEnviar" style="display: none!important; margin-top: 0%;">
+            <div class="modal-dialog" style="max-width: 900px!important;">
+                <div class="modal-content p-2">
+                    <div class="row mb-3 m-2" style="justify-content:center">
+                        <p class="h4" style="margin-left: 0px; margin-right:0px;"> Recuerde que una vez enviado no podrá modificar su calibración. ¿Desea confirmar la acción?</p>
+                    </div>
+                    <div class="row mb-3 pr-2">
+                        <div class="col-md-6">
+                            <a href="#" role="button" class="btn btn-danger btn-sm btn-block" onclick="CerrarModalEnviar();" id="CerrarModalEnviar" style="margin-left: 60%; width: 40%;">Cancelar</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" role="button" class="btn btn-info btn-sm btn-block" onclick="GuardarCalibración();" id="GuardarCalibración" style="width: 40%;">Enviar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    @*Estos links son para formularios (Si no van aca no funcionan)*@
+    <!-- DataTables JS CDN -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+
+var perfil = "@perfil";
+var idUsuario = "@idUsuario";
+CargarDatos();
+        //BUSCAR DATOS
+function CargarDatos() {
+    var url = "/PerformanceApp/Api/PerformanceApp/buscarDatosPerformance?idPerformance=" + "@idPerformance" + "&perfil=" + "@perfil";
+    $.getJSON(url)
+        .done(function (datos) {
+            var tbody = $('#tablaPerformance tbody');
+            tbody.empty();  // Limpiar el cuerpo de la tabla antes de agregar nuevas filas
+
+
+            var habilidades = {};
+
+            // Organizar los datos en un objeto por habilidades
+            datos.listDatosPerformance.forEach(function (data) {
+                var habilidad = data.nombreHabilidadAutoevaluacion || data.nombreHabilidadEvaluacion;
+                if (!habilidades[habilidad]) {
+                    habilidades[habilidad] = {
+                        calificacionAutoevaluacion: '',
+                        fechaCalificacionAutoevaluacion: '',
+                        calificacionEvaluacion: '',
+                        fechaCalificacionEvaluacion: ''
+                    };
+                }
+                if (data.nombreHabilidadAutoevaluacion) {
+                    habilidades[habilidad].calificacionAutoevaluacion = data.calificacionAutoevaluacion;
+                    habilidades[habilidad].fechaCalificacionAutoevaluacion = data.fechaCalificacionAutoevaluacion ? moment(data.fechaCalificacionAutoevaluacion).format('DD/MM/YYYY') : '';
+                }
+                if (data.nombreHabilidadEvaluacion) {
+                    habilidades[habilidad].calificacionEvaluacion = data.calificacionEvaluacion;
+                    habilidades[habilidad].fechaCalificacionEvaluacion = data.fechaCalificacionEvaluacion ? moment(data.fechaCalificacionEvaluacion).format('DD/MM/YYYY') : '';
+                }
+                //var ultimoDato = datos.length - 1;
+                var ano = datos.listDatosPerformance.length > 0 ? datos.listDatosPerformance[0].ano : null;
+                if (ano !== null) {
+                    $('#ano').text(ano);
+                }
+                var colaborador = datos.listDatosPerformance.length > 0 ? datos.listDatosPerformance[0].colaborador : null;
+                if (colaborador !== null) {
+                    $('#colaborador').text(colaborador);
+                }
+                var lider = datos.listDatosPerformance.length > 0 ? datos.listDatosPerformance[0].lider : null;
+                if (lider !== null) {
+                    $('#lider').text(lider);
+                }
+                var performance = datos.listDatosPerformance.length > 0 ? datos.listDatosPerformance[0].calificacionFinal : null;
+                if (performance !== null) {
+                    $('#performance').text("Performance:  " + performance);
+                }
+                if (@perfil != 127) {
+                    var comentario = datos.listDatosPerformance.length > 0 ? datos.listDatosPerformance[0].comentario : null;
+                    if (comentario !== null) {
+                        $('#comentario').html("<strong>Comentario Capital Humano:</strong> " + comentario);
+                    }
+                }
+            });
+
+            // Crear las filas de la tabla
+            for (var habilidad in habilidades) {
+                if (habilidad != "null") {
+                    var row = '<tr>';
+                    row += '<td style="background-color: #fff; color: black; border-left: 1px solid #17AFB6; border-right: 1px solid #17AFB6; width: 30%;">' + habilidad + '</td>';
+                    row += '<td style="background-color: #fff; color: black; border-left: 1px solid #17AFB6; border-right: 1px solid #17AFB6; width: 20%;">' + (habilidades[habilidad].calificacionAutoevaluacion || '') + '</td>';
+                    row += '<td style="background-color: #fff; color: black; border-left: 1px solid #17AFB6; border-right: 1px solid #17AFB6; width: 15%;">' + (habilidades[habilidad].fechaCalificacionAutoevaluacion || '') + '</td>';
+                    row += '<td style="background-color: #fff; color: black; border-left: 1px solid #17AFB6; border-right: 1px solid #17AFB6; width: 20%;">' + (habilidades[habilidad].calificacionEvaluacion || '') + '</td>';
+                    row += '<td style="background-color: #fff; color: black; border-left: 1px solid #17AFB6; border-right: 1px solid #17AFB6; width: 15%;">' + (habilidades[habilidad].fechaCalificacionEvaluacion || '') + '</td>';
+                    row += '</tr>';
+
+                    tbody.append(row);
+                }
+            }
+
+            if (datos.idCalificacionFinal != 0 && datos.idCalificacionFinal != null) {
+                var idBoton = 'g' + datos.idCalificacionFinal;
+                $('#' + idBoton).addClass('selected');
+            }
+
+        });
+}
+
+    //Funcion para que ande el popover
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    //Funcion para que ande el tooltip
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+        //VOLVER
+        function volverAtras() {
+            window.history.back();
+        }
+
+        function getSelectedCalificacion() {
+            const selectedInput = document.querySelector('.container-calificacion .calificacion.selected');
+            return selectedInput ? selectedInput.value : null;
+        }
+
+        function GuardarCalibración() {
+            var detalleEvaluacion = {};
+            $('#modalDeseaEnviar').hide();
+
+            var botonSeleccionado = document.querySelector('.calificacion.selected').value;
+
+            // Agregar el ID de usuario
+            detalleEvaluacion.idResponsable = "@idUsuario";
+            detalleEvaluacion.idPerformance = "@idPerformance";
+            detalleEvaluacion.nombreUsuario = localStorage.getItem('nombreUsuario');
+            detalleEvaluacion.calificacionFinal = botonSeleccionado;
+            const textarea = document.getElementById('comentarios');
+            detalleEvaluacion.comentario = textarea.value;
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: "POST",
+                url: "/PerformanceApp/Api/PerformanceApp/GuardarCalibracion",
+                data: detalleEvaluacion,
+                dataType: "json",
+                success: function (response) {
+                    if (response == 0) {
+                        // Error al guardar
+                        alert("Error al guardar la calibración");
+                        console.log("Error al guardar la calibración");
+                    } else {
+                        alert("calibración guardada con éxito");
+                        var url = "/PerformanceApp/Index?perfil=" + '' + "&idUsuario=" + '';
+                        window.location.href = url;
+                    }
+                },
+                error: function (jqxhr) {
+                    // Error en la solicitud AJAX
+                    console.log("Error en la solicitud AJAX:", jqxhr);
+                }
+            });
+        }
+
+        function AbrirModalEnviar() {
+            $('#modalDeseaEnviar').show();
+        }
+        function CerrarModalEnviar() {
+            $('#modalDeseaEnviar').hide();
+        }
+
+        $('input[type="button"]').click(function () {
+            var calificacion = $(this).val(); // Obtener el valor del botón
+            var idCalificacion = $(this).attr('id'); // Obtener el ID del botón
+            $('input[type="button"]').removeClass('selected');
+            $(this).addClass('selected');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    int idPerformance = ViewBag.IdPerformance;
+    var perfil = Session["perfil"];
+    var idUsuario = Session["idUsuario"];   
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        /*Background color*/
+        #grad1 {
+            background-color: #f3f3f3;
+        }
+
+        .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .separator {
+            margin-top: 10px !important;
+            margin-block: 10px !important;
+            margin: 0 auto; /* Eliminar los márgenes laterales y centrar el separador */
+            border-bottom: 3px solid #7380C4; /* Aumentar el grosor del borde inferior */
+            color: #034;
+            clear: both;
+        }
+
+        .titulo {
+            font-size: 25px;
+            margin-left: 300px
+        }
+
+        .titulo2 {
+            font-size: 15px;
+        }
+
+        .titulo3 {
+            font-size: 20px;
+            margin-left: 430px;
+        }
+        #mensajeGuardado {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px; /* Ajusta el ancho del cuadro */
+            height: 70px; /* Ajusta la altura del cuadro */
+            background-color: #aff5aa;
+            color: #15161a;
+            padding: 10px; /* Ajusta el relleno interno */
+            border: 1px solid #aff5aa;
+            border-radius: 5px;
+            z-index: 1000;
+            text-align: center; /* Centra el texto dentro del cuadro */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /*LAPIZ*/
+        .lapiz {
+            color: #676464;
+            cursor: default;
+            transition: color 0.3s;
+            position: relative;           
+            margin-right: 10px;
+        }
+
+            .lapiz:hover {
+                cursor: pointer;
+            }
+
+            .lapiz:active {
+                color: #13bcf5;
+            }
+    </style>
+
+
+</head>
+<body>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        @*PDI*@
+        <div class="container-fluid" style="max-width: 1300px!important;">
+            <div class="row justify-content-center mt-0">
+                <div style="background-color: white; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin-top: 40px;">
+                    <div class="titulo">
+                        Plan de Desarrollo Individual – Metas y Acciones (PDI)
+                    </div>
+                    <div>
+                        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+                        <img src="~/Content/img/pdi.jpg" style="height:550px; width:1230px">
+
+                    </div>
+                    <div></div>
+                    <div class="row" style="margin-top: 20px;">
+                        <p class="h4" id="datosColaborador" style="text-align: center;"></p>
+                        <div class="row" style="margin-top: 20px; display: none;" id="formPDI">
+                            <div class="separator"> </div>
+                            <div class="titulo3">
+                                MAPA DE ACCIONES DE DESARROLLO
+                            </div>
+                            <div class="separator"> </div>
+                            <div class="col-md-6">
+                                <label>Título de la meta:</label>
+                                <input type="text" class="form-control requeridoPDI" id="metaT" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tipo de acción:</label>
+                                <div></div>
+                                <div style="font-weight: normal !important;">
+                                    <select class="form-control requeridoPDI" id="selectTipoAccion"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Habilidad:</label>
+                                <div></div>
+                                <div style="font-weight: normal !important;">
+                                    <select class="form-control requeridoPDI" id="selectHabilidad"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Descripción de la meta:</label>
+                                <input type="text" class="form-control requeridoPDI" id="metaD" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fecha Desde</label>
+                                <input type="date" class="form-control requeridoPDI" id="fechaDesde">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fecha Hasta</label>
+                                <input type="date" class="form-control requeridoPDI" id="fechaHasta" onblur="VerificarFechas()">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Status:</label>
+                                <div></div>
+                                <div style="font-weight: normal !important;">
+                                    <select class="form-control requeridoPDI" id="selectStatus"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Acciones realizadas:</label>
+                                <input type="text" class="form-control" id="accionRealizada" />
+                            </div>
+                            <div class="row mb-3 pr-2 mt-3">
+                                <div class="col-md-6">
+                                    <a href="#" role="button" class="btn btn-danger btn-sm btn-block" onclick="vaciarMeta();" style="margin-left: 70%; width: 30%;">Cancelar</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#" role="button" class="btn btn-info btn-sm btn-block" onclick="ValidarDatosFaltantes();" id="guardarPDI" style="margin-left: 10%; width: 30%;">Guardar</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="separator"> </div>
+                        <div class="titulo3" style="margin-left:35%;">
+                            METAS Y ACCIONES PROPUESTAS
+                        </div>
+                        <div class="separator"> </div>
+                        <div id="metasList">
+                        </div>
+                    </div><br /> <br />
+                </div>
+            </div>
+        </div>
+        <div id="mensajeGuardado" style="display:none;">Guardado con éxito</div>
+        @*MODAL EDITAR METAS*@
+        <div class="modal" id="modal-editar" style="display: none!important; margin-top: 0%;">
+            <div class="modal-dialog" style="max-width: 900px!important;">
+                <div class="modal-content">
+                    <div class="modal-body" style="margin-left: 2% !important">
+                        <div class="titulo">
+                            EDITAR METAS
+                        </div>
+                        <div></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Meta:</label>
+                                <input type="text" class="form-control" id="metaTedit" disabled/>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tipo de acción:</label>
+                                <div></div>
+                                <div style="font-weight: normal !important;">
+                                    <input type="text" class="form-control" id="tipoAccionedit" disabled/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Habilidad:</label>
+                                <div></div>
+                                <input type="text" class="form-control" id="habilidadEdit" disabled/>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Descripción de la meta:</label>
+                                <input type="text" class="form-control" id="metaDedit" disabled/>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Fecha Desde</label>
+                                <input type="date" class="form-control requeridoPDIEdit" id="fechaDesdeEdit">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Fecha Hasta</label>
+                                <input type="date" class="form-control requeridoPDIEdit" id="fechaHastaEdit" onblur="VerificarFechas()">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Status:</label>
+                                <div></div>
+                                <div style="font-weight: normal !important;">
+                                    <select class="form-control requeridoPDIEdit" id="selectStatusEdit"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Acciones realizadas:</label>
+                                <input type="text" class="form-control" id="accionRealizadaEdit" />
+                            </div>                           
+                        </div>
+                        <div class="row">
+                            <div class="row mb-3 pr-2 mt-3">
+                                <div class="col-md-6">
+                                    <a href="#" role="button" class="btn btn-danger btn-sm btn-block" onclick="cerrarModalEditar();" style="margin-left: 70%; width: 30%;">Cancelar</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#" role="button" class="btn btn-info btn-sm btn-block" onclick="ValidarDatosFaltantesEditar();" style="margin-left: 10%; width: 30%;">Guardar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    @*Estos links son para formularios (Si no van aca no funcionan)*@
+    <!-- DataTables JS CDN -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+
+    var perfil = "@perfil";
+    var idUsuario = "@idUsuario";
+
+        CargarDatos();
+        CargarTiposAccion();
+        CargarStatus();
+        CargarHabilidades();
+        //BUSCAR DATOS
+function CargarDatos() {
+    var url = "/PerformanceApp/Api/PerformanceApp/buscarDatosPDI?idUsuario=" + "@idUsuario" + "&idPerformance=" + "@idPerformance";
+    $.getJSON(url)
+        .done(function (datos) {
+            $("#metassList").empty();
+            datos.forEach(function (data) {
+                var datosPersonales = datos[0];
+                // Actualiza los valores de colaborador, líder y dominio
+                $("#datosColaborador").text("Colaborador: " + datosPersonales.colaborador + "  -  Líder: " + datosPersonales.lider + "  -  Dominio/Negocio: " + datosPersonales.dominio + ".");
+
+                if (datosPersonales.idUsuario == @idUsuario) {
+                    $('#formPDI').show();
+                }
+                var htmlMetas = `
+<div class="item">
+    <p><strong>-Título de la meta:</strong> ${data.metaTitulo}</p>
+    <p><strong>-Descripción de la meta:</strong> ${data.metaDescripcion}</p>
+    <p><strong>-Tipo de Acción:</strong> ${data.nombreTipoAccion}<strong style="margin-left: 90px;">-Habilidad relacionada:</strong> ${data.nombreHabilidad}<strong style="margin-left: 90px;">-Status:</strong> ${data.nombreStatus}</p>
+    <p><strong>-Fecha Desde:</strong> ${moment(data.fechaDesde).format('DD/MM/YYYY')}<strong style="margin-left: 180px;">-Fecha Hasta:</strong> ${moment(data.fechaHasta).format('DD/MM/YYYY')} </p>
+    <p><strong>-Acciones Realizadas:</strong> ${data.accionesRealizadas ? data.accionesRealizadas : ''}</p>
+    <div class="separator"> </div>
+</div>
+`;
+
+                var htmlVacio = `
+                    <div class="item">
+                        <p></p> <br /><br />
+                    </div>
+                `;
+                if (data.metaTitulo != null) {
+                    $("#metasList").append(htmlMetas);
+                }
+            });
+        });
+}
+      //  <p><strong>-Fecha Desde:</strong> ${moment(data.fechaDesde).format('DD/MM/YYYY')}<strong style="margin-left: 180px;">-Fecha Hasta:</strong> ${moment(data.fechaHasta).format('DD/MM/YYYY')} <i class="lapiz fas fa-pencil-alt" style="margin-left: 600px;" onclick="EditarMeta(${data.idMeta})"></i></p>
+
+        function CargarTiposAccion() {
+            var selectTipoAccion = $('#selectTipoAccion');
+            selectTipoAccion.empty();
+            selectTipoAccion.append($('<option/>', { value: '', text: 'Seleccionar' }).hide());
+            var url = "/PerformanceApp/Api/PerformanceApp/ListarTipoAccion";
+            $.getJSON(url)
+                .done(function (data) {
+                    console.log(data);
+                    $.each(data, function (index, result) {
+                        selectTipoAccion.append($('<option/>', {
+                            value: result.idTipoAccion,
+                            text: result.nombre
+                        }));
+                    });
+                });
+        }
+        function CargarStatus() {
+            var selectStatus = $('#selectStatus');
+            selectStatus.empty();
+            selectStatus.append($('<option/>', { value: '', text: 'Seleccionar' }).hide());
+            var url = "/PerformanceApp/Api/PerformanceApp/ListarStatus";
+            $.getJSON(url)
+                .done(function (data) {
+                    console.log(data);
+                    $.each(data, function (index, result) {
+                        selectStatus.append($('<option/>', {
+                            value: result.idStatus,
+                            text: result.nombre
+                        }));
+                    });
+                });
+        }
+        function CargarHabilidades() {
+            var selectHabilidad = $('#selectHabilidad');
+            selectHabilidad.empty();
+            selectHabilidad.append($('<option/>', { value: '', text: 'Seleccionar' }).hide());
+            var url = "/PerformanceApp/Api/PerformanceApp/ListarHabilidades";
+            $.getJSON(url)
+                .done(function (data) {
+                    console.log(data);
+                    $.each(data, function (index, result) {
+                        selectHabilidad.append($('<option/>', {
+                            value: result.idHabilidad,
+                            text: result.habilidad
+                        }));
+                    });
+                });
+        }
+
+        function GuardarMeta() {
+            var metaDetalle = new Object();
+
+            metaDetalle.idUsuario = idUsuario;
+            metaDetalle.tipoAccion = $("#selectTipoAccion").val();
+            metaDetalle.habilidad = $("#selectHabilidad").val();
+            metaDetalle.metaTitulo = $("#metaT").val();
+            metaDetalle.metaDescripcion = $("#metaD").val();
+            metaDetalle.fechaDesde = $("#fechaDesde").val();
+            metaDetalle.fechaHasta = $("#fechaHasta").val();
+            metaDetalle.status = $("#selectStatus").val();
+            metaDetalle.accionesRealizadas = $("#accionRealizada").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/PerformanceApp/Api/PerformanceApp/GuardarMeta",
+                data: metaDetalle,
+                dataType: "json",
+                success: function (response) {
+                    if (response == 0) {
+                        mostrarMensajeGuardado();
+                        CargarDatos();
+                        vaciarMeta();
+                    } else {
+                        alet("Error al guardar");
+                    }
+                },
+                error: function (jqxhr) {
+                    //$('#modal-error').show();
+                    console.log(jqxhr);
+                }
+            });
+        }
+        function mostrarMensajeGuardado() {
+            $("#mensajeGuardado").fadeIn("slow", function () {
+                setTimeout(function () {
+                    $("#mensajeGuardado").fadeOut("slow");
+                }, 3000);
+            });
+        }
+        //VACIAR
+        function vaciarMeta() {
+            $('#selectTipoAccion').val('').change();
+            $('#selectHabilidad').val('').change();
+            $('#metaT').val('').change();
+            $('#metaD').val('').change();
+            $('#fechaDesde').val('').change();
+            $('#fechaHasta').val('').change();
+            $('#selectStatus').val('').change();
+            $('#accionRealizada').val('').change();
+        }
+
+       ///VALIDACIONES
+        $('.requeridoPDI').each(function (index, element) {
+            $('#' + element.id).on('change blur', function () {
+                ValidarFaltantes();
+            });
+        });
+        function ValidarFaltantes() {
+            var elementos = $('.requeridoPDI');
+            var validado = true;
+            elementos.each(function (index, element) {
+                if (element.value == '' || element.value == undefined) {
+                    validado = false;
+                } else {
+                    element.style.backgroundColor = "";
+                }
+            });
+        }
+        function ValidarDatosFaltantes() {
+            var elementos = $('.requeridoPDI');
+            var validado = true;
+
+            elementos.each(function (index, element) {
+                if (element.value == '' || element.value == undefined) {
+                    validado = false;
+                    element.style.backgroundColor = "#ef8a99";
+                }
+            });
+            if (validado) {
+                GuardarMeta();
+            } else {
+                alert("Falta completar datos obligatorios");
+            }
+        }
+        function VerificarFechas() {
+            var fechaDesde = new Date($("#fechaDesde").val());
+            var fechaHasta = new Date($("#fechaHasta").val());
+            if (fechaHasta < fechaDesde) {
+                alert('La fecha de finalización no puede ser anterior a la fecha de inicio.');
+                $('#fechaHasta').val('').change();
+            }
+        }
+
+        ///EDITAR
+        var idMeta = 0;
+        function EditarMeta(idMet) {
+            $('#modal-editar').show();
+            idMeta = idMet;
+            CargarStatusEdicion();
+            BuscarDatosMeta();
+        }
+        function cerrarModalEditar() {
+            $('#modal-editar').hide();
+            idMeta = 0;
+        }
+        function vaciarMetaEdicion() {
+            $('#selectTipoAccion').val('').change();
+            $('#selectHabilidad').val('').change();
+            $('#metaT').val('').change();
+            $('#metaD').val('').change();
+            $('#fechaDesde').val('').change();
+            $('#fechaHasta').val('').change();
+            $('#selectStatus').val('').change();
+            $('#accionRealizada').val('').change();
+        }
+        function CargarStatusEdicion() {
+            var selectStatus = $('#selectStatusEdit');
+            selectStatus.empty();
+            selectStatus.append($('<option/>', { value: '', text: 'Seleccionar' }).hide());
+            var url = "/PerformanceApp/Api/PerformanceApp/ListarStatus";
+            $.getJSON(url)
+                .done(function (data) {
+                    console.log(data);
+                    $.each(data, function (index, result) {
+                        selectStatus.append($('<option/>', {
+                            value: result.idStatus,
+                            text: result.nombre
+                        }));
+                    });
+                });
+        }
+        function BuscarDatosMeta() {
+            var url = "/PerformanceApp/Api/PerformanceApp/buscarDatosMeta?idUsuario=" + "@idUsuario" + "&idMeta=" + idMeta;
+           
+            $.getJSON(url)
+                .done(function (data) {
+                    $("#metaTedit").val(data.metaTitulo);
+                    $("#tipoAccionedit").val(data.nombreTipoAccion);
+                    $("#habilidadEdit").val(data.nombreHabilidad);
+                    $("#metaDedit").val(data.metaDescripcion);
+                    $("#fechaDesdeEdit").val(data.fechaDesde);
+                    $("#fechaHastaEdit").val(data.fechaHasta);
+                });
+        }
+
+    </script>
+</body>
+</html>

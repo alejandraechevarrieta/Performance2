@@ -1,0 +1,267 @@
+﻿<!--
+=========================================================
+* Soft UI Dashboard - v1.0.7
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+@{
+    var perfil = Session["perfil"];
+    var idUsuario = Session["idUsuario"];
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    <title>
+        Performance
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="~/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="~/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+
+<
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 d-block position-fixed fixed-start ms-3 bg-gray-100" id="sidenav-main">
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+            <img src="~/assets/img/performanceIdentidad2024.png" style="height:78px; width:240px" alt="main_logo">
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="collapse navbar-collapse  w-auto h-100" id="sidenav-collapse-main">
+            <ul class="navbar-nav" style="width:260px;">
+                <li class="nav-item">
+                    <a id="navIndex" class="nav-link" onclick="location.href='/PerformanceApp/Index?perfil=' + '' + '&idUsuario=' + ''">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Listado Performance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="navPDI" class="nav-link" onclick="location.href='/PerformanceApp/Index/Crud?view=' + 'pdi' + '&idPerformance=' + ''">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-file-powerpoint-o"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Plan Desarrollo Individual</span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    @* <h6 class="font-weight-bolder mb-0">Performance</h6>*@
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        @*<div class="input-group">
+                                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" placeholder="Buscar aquí...">
+                            </div>*@
+                    </div>
+                    <ul class="navbar-nav  justify-content-end">
+                        <li class="nav-item d-flex align-items-center m-1">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline" id="nombreUsuario" style="margin-right:10px;">Usuario</span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center m-1" id="botonModalBienvenida" style="cursor:pointer;" data-bs-toggle="modal" title="Ver Bienvenida" data-bs-target="#exampleModal">
+                            <i class="fa fa-bullhorn"></i>
+                            <span class="d-sm-inline d-none" style="margin-left:5px;">Ver bienvenida</span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center m-1" style="cursor:pointer;" title="Cerrar sesión">
+                            <a href="/Login/Index" class="nav-link text-body font-weight-bold px-0 logout-link">
+                                <span class="d-sm-inline d-none" style="margin-left:5px;">
+                                    <i class="fa fa-sign-out-alt"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="divLoading" class="modalLoading"></div>
+        <button id="botonModalBienvenida" type="button" class="btn bg-gradient-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <!-- Botón de cerrar con posición absoluta -->
+                    <button type="button" class="btn-close text-dark" style="position: absolute; top: 7px; right: 10px; font-size: 1.5rem;" data-bs-dismiss="modal" aria-label="Close" onclick="CerrarModal();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- Switch -->
+                    <div class="form-check form-switch" style="position: absolute; top: 10px; left: 10px;" title="Ver bienvenida cada vez que inicie sesión en performance">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked onchange="CambiarSwitchBienvenida()">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Ver bienvenida</label>
+                    </div>
+                    <!-- Imagen dentro del modal -->
+                    <img src="~/Content/img/BienvenidaEtapa3.jpg">
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--   Core JS Files   -->
+    <script src="~/assets/js/core/popper.min.js"></script>
+    <script src="~/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="~/assets/js/plugins/chartjs.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    //tener en cuenta que esta etiqueta sript se ejecuta despues de que cargue el DOM
+        $(document).ready(function () {
+            var algo = localStorage.getItem('idUsuario');
+            $.ajax({
+                url: "/PerformanceApp/Api/PerformanceApp/BuscarDatosUsuario?idUsuario=" + localStorage.getItem('idUsuario'),
+                type: 'GET',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data != null) {
+                        $("#nombreUsuario").text(data.nombre);
+                        localStorage.setItem('nombreUsuario', data.nombre); // Guardar nombreUsuario en localStorage
+
+                        //provisorio 
+                        @*if (@perfil == 127 || @perfil == 128) {
+                            $('#navPDI').hide();
+                        }*@
+                    } else {
+                        // Manejar otro caso si es necesario
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Error en el nombre de usuario " + errorThrown + ". Vuelva a ingresar.");
+                    window.location.href = '/Login/Index'
+                }
+            });
+        });
+    </script>
+    <script>
+        //Muestra modal de BIENVENIDA
+        $(document).ready(function () {
+            if (localStorage.getItem('leerBienvenidaSwitch') == 1 || localStorage.getItem('leerBienvenidaSwitch') == null) {
+                document.getElementById("flexSwitchCheckDefault").checked = true;
+            }
+            else {
+                document.getElementById("flexSwitchCheckDefault").checked = false;
+            }
+
+
+            var bienvenida = localStorage.getItem('bienvenidaLeida');
+            if (bienvenida == 0 || bienvenida == null) {
+                // Obtener el botón por su id
+                var boton = document.getElementById('botonModalBienvenida');
+                // Simular un clic en el botón
+                boton.click();
+
+            }
+        });
+        function CerrarModal() {
+            localStorage.setItem('bienvenidaLeida', 1);
+        }
+        function CambiarSwitchBienvenida() {
+
+
+            //Abajo se fija el valo si el switch de la bienvenida esta seleccionado o no
+            var variable = document.getElementById("flexSwitchCheckDefault").checked;
+            // Aquí puedes hacer lo que necesites con la variable, por ejemplo, cambiar su valor
+            if (variable) {
+                // La variable está activada
+                localStorage.setItem('leerBienvenidaSwitch', 1);
+            } else {
+                // La variable está desactivada
+                localStorage.setItem('leerBienvenidaSwitch', 0);
+            }
+
+        }
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+
+        //Cierre de sesion
+        document.querySelector('.logout-link').addEventListener('click', function (event) {
+            // Prevent the default link behavior
+            event.preventDefault();
+
+            // Clear all items in localStorage
+            localStorage.clear();
+
+            // Redirect to the login page
+            window.location.href = this.href;
+        });
+
+
+
+        //recuerdo menu
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener todos los elementos del menú con la clase 'nav-link'
+            var navLinks = document.querySelectorAll('.nav-link');
+            // Comprobar el almacenamiento local para ver si hay un enlace activo guardado
+            var activeLinkId = localStorage.getItem('activeLinkId');
+            if (activeLinkId) {
+                // Si hay un enlace activo guardado, agregar la clase 'active' a ese enlace
+                var activeLink = document.getElementById(activeLinkId);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+            // Agregar un evento de clic a cada enlace del menú
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    // Remover la clase 'active' de todos los enlaces
+                    navLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    // Agregar la clase 'active' al enlace clicado
+                    this.classList.add('active');
+                    // Guardar el id del enlace activo en el almacenamiento local
+                    localStorage.setItem('activeLinkId', this.id);
+                });
+            });
+        });
+
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="~/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+</body>
+
+</html>
+@RenderBody()

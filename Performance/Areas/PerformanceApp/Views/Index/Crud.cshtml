@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Crud";
+    string view = ViewBag.View;
+    //var idPerfil = Session["idPerfil"];
+    int idPerformance = ViewBag.IdPerformance;
+    string nombre = ViewBag.nombre;
+
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    @if (view == "autoevaluacion")
+    {
+        @Html.Partial("_Autoevaluacion")
+    }
+    else if (view == "evaluacion")
+    {
+        @Html.Partial("_Evaluacion")
+    }
+    else if (view == "performance")
+    {
+        @Html.Partial("_Performance")
+    }
+    else if (view == "calibracion")
+    {
+        @Html.Partial("_Calibracion")
+    }
+    else if (view == "pdi")
+    {
+        @Html.Partial("_PDI")
+    }
+    else
+    {
+        @Html.Partial("_Error")
+    }
+</main>
+

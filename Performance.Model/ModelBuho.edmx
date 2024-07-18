@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BuhoGestionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GralDominio">
+          <Key>
+            <PropertyRef Name="idDominio" />
+          </Key>
+          <Property Name="idDominio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDominio" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="GralUsuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="150" />
+          <Property Name="dni" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="nchar" MaxLength="150" />
+          <Property Name="idSubOficina" Type="int" />
+          <Property Name="idOficina" Type="int" />
+          <Property Name="password" Type="nvarchar" MaxLength="150" />
+          <Property Name="idPerfil" Type="int" />
+          <Property Name="usuario" Type="nchar" MaxLength="150" />
+          <Property Name="activo" Type="int" />
+          <Property Name="ultimoLogin" Type="datetime" />
+          <Property Name="codBizagi" Type="int" />
+          <Property Name="legajo" Type="int" />
+          <Property Name="nroSAP" Type="int" />
+          <Property Name="idReloj" Type="int" />
+          <Property Name="entrada" Type="time" Precision="7" />
+          <Property Name="salida" Type="time" Precision="7" />
+          <Property Name="sede" Type="nvarchar" MaxLength="150" />
+          <Property Name="comedor" Type="nvarchar" MaxLength="150" />
+          <Property Name="cantidadHoras" Type="int" />
+          <Property Name="fechaNacimiento" Type="date" />
+          <Property Name="fechaIngreso" Type="date" />
+          <Property Name="idReloj2" Type="int" />
+          <Property Name="nombreUsuario" Type="nvarchar" MaxLength="250" />
+          <Property Name="apellidoUsuario" Type="nvarchar" MaxLength="250" />
+          <Property Name="idSede" Type="int" />
+          <Property Name="foto" Type="nvarchar" MaxLength="250" />
+          <Property Name="marca" Type="bit" />
+          <Property Name="idUsuarioInternet" Type="int" />
+          <Property Name="fechaBaja" Type="datetime" />
+          <Property Name="idJefe" Type="int" />
+          <Property Name="tratamiento" Type="nvarchar" MaxLength="250" />
+          <Property Name="sexo" Type="nvarchar" MaxLength="1" />
+          <Property Name="categoria" Type="int" />
+          <Property Name="cuil" Type="nvarchar" MaxLength="15" />
+          <Property Name="tieneComedor" Type="int" />
+          <Property Name="compensa" Type="int" />
+          <Property Name="horaExtra" Type="int" />
+          <Property Name="idConvenio" Type="int" />
+          <Property Name="trabajaFinDe" Type="int" />
+          <Property Name="esCtr" Type="bit" />
+          <Property Name="centroCosto" Type="nvarchar" MaxLength="50" />
+          <Property Name="diferenciaSAP" Type="bit" />
+          <Property Name="esGuardia" Type="bit" />
+          <Property Name="tieneHoraAlmuerzo" Type="bit" />
+          <Property Name="pais" Type="varchar" MaxLength="50" />
+          <Property Name="horaExtraObra" Type="int" />
+          <Property Name="bonoDispo" Type="int" />
+          <Property Name="IdProvincia" Type="int" />
+          <Property Name="idSeniority" Type="int" />
+          <Property Name="tipoGuardia" Type="int" />
+          <Property Name="idJefeVia" Type="int" />
+          <Property Name="tieneCumpleanos" Type="bit" />
+          <Property Name="esPerformance" Type="bit" />
+          <Property Name="idDominio" Type="int" />
+        </EntityType>
+        <EntityType Name="RecConvenio">
+          <Key>
+            <PropertyRef Name="idConvenio" />
+          </Key>
+          <Property Name="idConvenio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreConvenio" Type="nvarchar" MaxLength="150" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="SegUsuarioPerfil">
+          <Key>
+            <PropertyRef Name="idUsuarioPerfil" />
+          </Key>
+          <Property Name="idUsuarioPerfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUsuario" Type="int" />
+          <Property Name="idPerfil" Type="int" />
+        </EntityType>
+        <EntityType Name="UocCategoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="350" />
+          <Property Name="orden" Type="int" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="BuhoGestionModelStoreContainer">
+          <EntitySet Name="GralDominio" EntityType="Self.GralDominio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GralUsuario" EntityType="Self.GralUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecConvenio" EntityType="Self.RecConvenio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SegUsuarioPerfil" EntityType="Self.SegUsuarioPerfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UocCategoria" EntityType="Self.UocCategoria" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BuhoGestionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GralDominio">
+          <Key>
+            <PropertyRef Name="idDominio" />
+          </Key>
+          <Property Name="idDominio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDominio" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GralUsuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="dni" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="idSubOficina" Type="Int32" />
+          <Property Name="idOficina" Type="Int32" />
+          <Property Name="password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="idPerfil" Type="Int32" />
+          <Property Name="usuario" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="activo" Type="Int32" />
+          <Property Name="ultimoLogin" Type="DateTime" Precision="3" />
+          <Property Name="codBizagi" Type="Int32" />
+          <Property Name="legajo" Type="Int32" />
+          <Property Name="nroSAP" Type="Int32" />
+          <Property Name="idReloj" Type="Int32" />
+          <Property Name="entrada" Type="Time" Precision="7" />
+          <Property Name="salida" Type="Time" Precision="7" />
+          <Property Name="sede" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="comedor" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="cantidadHoras" Type="Int32" />
+          <Property Name="fechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="fechaIngreso" Type="DateTime" Precision="0" />
+          <Property Name="idReloj2" Type="Int32" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="apellidoUsuario" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="idSede" Type="Int32" />
+          <Property Name="foto" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="marca" Type="Boolean" />
+          <Property Name="idUsuarioInternet" Type="Int32" />
+          <Property Name="fechaBaja" Type="DateTime" Precision="3" />
+          <Property Name="idJefe" Type="Int32" />
+          <Property Name="tratamiento" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="categoria" Type="Int32" />
+          <Property Name="cuil" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="tieneComedor" Type="Int32" />
+          <Property Name="compensa" Type="Int32" />
+          <Property Name="horaExtra" Type="Int32" />
+          <Property Name="idConvenio" Type="Int32" />
+          <Property Name="trabajaFinDe" Type="Int32" />
+          <Property Name="esCtr" Type="Boolean" />
+          <Property Name="centroCosto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="diferenciaSAP" Type="Boolean" />
+          <Property Name="esGuardia" Type="Boolean" />
+          <Property Name="tieneHoraAlmuerzo" Type="Boolean" />
+          <Property Name="pais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="horaExtraObra" Type="Int32" />
+          <Property Name="bonoDispo" Type="Int32" />
+          <Property Name="IdProvincia" Type="Int32" />
+          <Property Name="idSeniority" Type="Int32" />
+          <Property Name="tipoGuardia" Type="Int32" />
+          <Property Name="idJefeVia" Type="Int32" />
+          <Property Name="tieneCumpleanos" Type="Boolean" />
+          <Property Name="esPerformance" Type="Boolean" />
+          <Property Name="idDominio" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RecConvenio">
+          <Key>
+            <PropertyRef Name="idConvenio" />
+          </Key>
+          <Property Name="idConvenio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreConvenio" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="activo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SegUsuarioPerfil">
+          <Key>
+            <PropertyRef Name="idUsuarioPerfil" />
+          </Key>
+          <Property Name="idUsuarioPerfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUsuario" Type="Int32" />
+          <Property Name="idPerfil" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UocCategoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="orden" Type="Int32" />
+          <Property Name="activo" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="BuhoGestionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GralDominio" EntityType="Self.GralDominio" />
+          <EntitySet Name="GralUsuario" EntityType="Self.GralUsuario" />
+          <EntitySet Name="RecConvenio" EntityType="Self.RecConvenio" />
+          <EntitySet Name="SegUsuarioPerfil" EntityType="Self.SegUsuarioPerfil" />
+          <EntitySet Name="UocCategoria" EntityType="Self.UocCategoria" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BuhoGestionModelStoreContainer" CdmEntityContainer="BuhoGestionEntities">
+          <EntitySetMapping Name="GralDominio">
+            <EntityTypeMapping TypeName="BuhoGestionModel.GralDominio">
+              <MappingFragment StoreEntitySet="GralDominio">
+                <ScalarProperty Name="idDominio" ColumnName="idDominio" />
+                <ScalarProperty Name="NombreDominio" ColumnName="NombreDominio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GralUsuario">
+            <EntityTypeMapping TypeName="BuhoGestionModel.GralUsuario">
+              <MappingFragment StoreEntitySet="GralUsuario">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="idSubOficina" ColumnName="idSubOficina" />
+                <ScalarProperty Name="idOficina" ColumnName="idOficina" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="idPerfil" ColumnName="idPerfil" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="ultimoLogin" ColumnName="ultimoLogin" />
+                <ScalarProperty Name="codBizagi" ColumnName="codBizagi" />
+                <ScalarProperty Name="legajo" ColumnName="legajo" />
+                <ScalarProperty Name="nroSAP" ColumnName="nroSAP" />
+                <ScalarProperty Name="idReloj" ColumnName="idReloj" />
+                <ScalarProperty Name="entrada" ColumnName="entrada" />
+                <ScalarProperty Name="salida" ColumnName="salida" />
+                <ScalarProperty Name="sede" ColumnName="sede" />
+                <ScalarProperty Name="comedor" ColumnName="comedor" />
+                <ScalarProperty Name="cantidadHoras" ColumnName="cantidadHoras" />
+                <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+                <ScalarProperty Name="fechaIngreso" ColumnName="fechaIngreso" />
+                <ScalarProperty Name="idReloj2" ColumnName="idReloj2" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="apellidoUsuario" ColumnName="apellidoUsuario" />
+                <ScalarProperty Name="idSede" ColumnName="idSede" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="idUsuarioInternet" ColumnName="idUsuarioInternet" />
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
+                <ScalarProperty Name="idJefe" ColumnName="idJefe" />
+                <ScalarProperty Name="tratamiento" ColumnName="tratamiento" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="cuil" ColumnName="cuil" />
+                <ScalarProperty Name="tieneComedor" ColumnName="tieneComedor" />
+                <ScalarProperty Name="compensa" ColumnName="compensa" />
+                <ScalarProperty Name="horaExtra" ColumnName="horaExtra" />
+                <ScalarProperty Name="idConvenio" ColumnName="idConvenio" />
+                <ScalarProperty Name="trabajaFinDe" ColumnName="trabajaFinDe" />
+                <ScalarProperty Name="esCtr" ColumnName="esCtr" />
+                <ScalarProperty Name="centroCosto" ColumnName="centroCosto" />
+                <ScalarProperty Name="diferenciaSAP" ColumnName="diferenciaSAP" />
+                <ScalarProperty Name="esGuardia" ColumnName="esGuardia" />
+                <ScalarProperty Name="tieneHoraAlmuerzo" ColumnName="tieneHoraAlmuerzo" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+                <ScalarProperty Name="horaExtraObra" ColumnName="horaExtraObra" />
+                <ScalarProperty Name="bonoDispo" ColumnName="bonoDispo" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="idSeniority" ColumnName="idSeniority" />
+                <ScalarProperty Name="tipoGuardia" ColumnName="tipoGuardia" />
+                <ScalarProperty Name="idJefeVia" ColumnName="idJefeVia" />
+                <ScalarProperty Name="tieneCumpleanos" ColumnName="tieneCumpleanos" />
+                <ScalarProperty Name="esPerformance" ColumnName="esPerformance" />
+                <ScalarProperty Name="idDominio" ColumnName="idDominio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecConvenio">
+            <EntityTypeMapping TypeName="BuhoGestionModel.RecConvenio">
+              <MappingFragment StoreEntitySet="RecConvenio">
+                <ScalarProperty Name="idConvenio" ColumnName="idConvenio" />
+                <ScalarProperty Name="nombreConvenio" ColumnName="nombreConvenio" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegUsuarioPerfil">
+            <EntityTypeMapping TypeName="BuhoGestionModel.SegUsuarioPerfil">
+              <MappingFragment StoreEntitySet="SegUsuarioPerfil">
+                <ScalarProperty Name="idUsuarioPerfil" ColumnName="idUsuarioPerfil" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="idPerfil" ColumnName="idPerfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UocCategoria">
+            <EntityTypeMapping TypeName="BuhoGestionModel.UocCategoria">
+              <MappingFragment StoreEntitySet="UocCategoria">
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

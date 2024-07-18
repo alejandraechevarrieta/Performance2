@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Title = "Index";   
+    Layout = null;
+}
+<style>
+    #cardLogin {
+        background-color: #EAEBF9;
+    }
+
+    .input-group-outline input:focus {
+        border-color: #00aec7; /* Color gris por defecto */
+        box-shadow: 0 0 0 0.2rem rgba(0, 174, 199, 0.5); /* Sombra con color y opacidad */
+    }
+
+    .modalLoading {
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(214, 214, 214, 0.8) url('../../Content/img/puntos.gif') 50% 50% no-repeat;
+        background-size: 300px 240px;
+    }
+</style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    <title>
+        Performance
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/CssPerformance.css">
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+    <style>
+        body {
+            background-image: url('/assets/img/PerformanceFondoLogin.jpg');
+            background-size: cover;
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 3rem; /* Añade margen superior de 3rem */
+        }
+
+        #divLogin {
+            position: relative;
+            z-index: 1;
+        }
+
+        #divLoading {
+            position: fixed;
+            z-index: 2;
+        }
+
+        .modalLoading {
+            /* Aquí puedes agregar estilos específicos para el divLoading si es necesario */
+        }
+    </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+    <div id="divLoading" class="modalLoading"></div>
+    <div id="divLogin">
+        <div class="col-lg-4 col-md-8 col-12 mt-3" style="margin-left:auto; margin-right: 5%;">
+            <div class="card z-index-0 fadeIn3 fadeInBottom mt-3">
+                <div class="card-header p-0 mx-3 z-index-2 mt-3">
+                    <div id="cardLogin" class="border-radius-lg pe-1">
+                        <img src="/assets/img/performanceIdentidad2024.png" alt="Performance Identidad" style="width: 100%; height: auto; border-radius: 8px;">
+                    </div>
+                </div>
+                @*<p class="h4 text-white font-weight-bolder text-center mt-2 mb-0"><b>Performance App</b></p>
+                    <p class="text-white font-weight-bolder text-center mt-2 mb-0">Ingresar sus credenciales</p>*@
+                <div class="card-body">
+                    <form role="form" class="text-start">
+                        <div class="input-group input-group-outline my-3">
+                            <input type="text" class="form-control" placeholder="Usuario" aria-label="Usuario" aria-describedby="basic-addon1" id="usuario">
+                        </div>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="basic-addon1" id="password">
+                        </div>
+                        <div class="text-center">
+                            <button type="button" style="background-color: rgba(80,190,45);" class="btn w-100 my-4 mb-2 text-white" id="Ingresar">Ingresar</button>
+                        </div>
+                        <div class="row mt-2">
+                            @*<div class="text-l col-5 justify-content-end vertical" style="justify-content:end;">
+                                    <a href="../pages/sign-up.html" style="color: #00aec7;" class="font-weight-bold">Recuperar contraseña</a>
+                                    <br />
+                                    <br />
+                                    <a href="../pages/sign-up.html" style="color: #00aec7;" class="font-weight-bold">Desbloquear usuario</a>
+                                </div>
+                                <div class="col-2 justify-content-center">
+                                </div>*@
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc-->
+    <script src="~/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+    @*<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" data-cf-beacon='{"rayId":"866a9418dd4b1ff6","version":"2024.3.0","token":"1b7cbb72744b40c580f8633c6b62637e"}' crossorigin="anonymous"></script>*@
+
+    @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+   
+</body>
+
+</html>
+<script>
+    //PERFIL
+    var perfil = null;
+
+    
+    //INICIO
+    $("#divLoading").hide();
+
+    $('#Ingresar').click(function () {
+        Ingresar();
+    });
+    document.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            // Llamar a la función que deseas ejecutar
+            Ingresar()
+        }
+    });
+    function Ingresar() {
+        var usuario = $('#usuario').val();
+        var password = $('#password').val();
+
+        var splitEmail = usuario.split("@@");
+        if (splitEmail[1] == "" || splitEmail[1] == null) {
+            $.ajax({
+                url: "Api/Login/ValidarIngreso",
+                type: 'GET',
+                data: {
+                    usuario: usuario,
+                    password: password
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data > 0) {
+                        idUsuario = data;
+                        validarPerfil(idUsuario);
+                        $("#divLoading").show();
+                    } else if (data == -1) {
+                        alert("Su usuario se encuentra inhabilitado, para acceder comuníquese con el administrador de sistema");
+                    } else if (data.Error == -2) {
+                        alert("Datos incorrectos quedan " + data.IntentosRestantes + " intentos");
+                    } else if (data == -3) {
+                        alert("Usuario bloqueado, para recuperar su cuenta redirijase a Buho: https://buhogestion.distrocuyo.com/Login/Index");
+                    } else {
+                        alert("Usuario o Contraseña incorrecto");
+                    }
+                    $('#password').val('').change();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Error en la solicitud: " + errorThrown);
+                }
+            });
+        } else {
+            alert("Escriba nombre de usuario. No se permite e-mail.");
+        }
+    }
+    function validarPerfil(idUsuario) {      
+        var currentDate = new Date();
+        // Formatear la fecha en formato YYYYMMDD
+        var formattedDate = currentDate.getFullYear() +
+            ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+            ('0' + currentDate.getDate()).slice(-2);
+        var secretKey = formattedDate + "12345678";
+        var iv = CryptoJS.lib.WordArray.random(16); 
+
+        $.ajax({
+            url: "Api/Login/GetPerfiles",
+            type: 'GET',
+            data: {
+                idUsuario: idUsuario
+            },
+            dataType: 'json',
+            success: function (data) {
+                var perfil = data;
+                if (perfil !== null && perfil !== 0) {
+                    var encryptedPerfil = CryptoJS.AES.encrypt(perfil.toString(), CryptoJS.enc.Utf8.parse(secretKey), { iv: iv }).toString();
+                    var encryptedIdUsuario = CryptoJS.AES.encrypt(idUsuario.toString(), CryptoJS.enc.Utf8.parse(secretKey), { iv: iv }).toString();
+                    var ivBase64 = CryptoJS.enc.Base64.stringify(iv); 
+
+                    var url = `/PerformanceApp/Index?perfil=${encodeURIComponent(encryptedPerfil)}&idUsuario=${encodeURIComponent(encryptedIdUsuario)}&iv=${encodeURIComponent(ivBase64)}`;
+                    localStorage.setItem('idUsuario', idUsuario);
+                    if (localStorage.getItem('leerBienvenidaSwitch') == 1) {
+                        localStorage.setItem('bienvenidaLeida', 0);
+                    } else if (localStorage.getItem('leerBienvenidaSwitch') == 0) {
+                        localStorage.setItem('bienvenidaLeida', 1);
+                    } else {
+                        localStorage.setItem('bienvenidaLeida', 0);
+                    }
+                    window.location.href = url;
+                } else {
+                    alert("El usuario no tiene permiso");
+                    $("#divLoading").hide();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al obtener los perfiles:", error);
+            }
+        });
+    }
+
+
+
+
+
+</script>
