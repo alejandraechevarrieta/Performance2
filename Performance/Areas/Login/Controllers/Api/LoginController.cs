@@ -71,14 +71,11 @@ namespace Performance.Areas.Login.Controllers.Api
                 {
                     // Ejecuta la tarea de forma sincrónica dentro de un Task.Run
                     var perfiles = GetPerfiless(idUsuario);
-
                     if (perfiles != null) { 
                         var perfil = 0;
-
                         //asigno perfil 
                         foreach (var item in perfiles)
                         {
-
                             if (item.idPerfil == 127 || item.idPerfil == 128 || item.idPerfil == 129)
                             {
                                 perfil = Convert.ToInt32(item.idPerfil);
@@ -155,7 +152,6 @@ namespace Performance.Areas.Login.Controllers.Api
                            select new PerfilesVM
                            {
                                idPerfil = p.idPerfil,
-
                            });
                 var algo = tmp.ToList();
                 var temp = (IQueryable<PerfilesVM>)tmp;
@@ -204,7 +200,6 @@ namespace Performance.Areas.Login.Controllers.Api
                                                   convenio = co.nombreConvenio,
                                                   dominio = d.NombreDominio,
                                               }).ToList();
-
                     return datosColaboradores.Cast<object>().ToList();
                 }
             }
@@ -228,7 +223,6 @@ namespace Performance.Areas.Login.Controllers.Api
                                                 nombreJefe = jefe != null ? jefe.Nombre : null,
                                                 fechaIngreso = colaborador.fechaIngreso
                                             }).FirstOrDefault();
-
                     return datosColaborador;
                 }
             }
