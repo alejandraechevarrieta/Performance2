@@ -1385,15 +1385,15 @@ namespace Performance.Servicios
 
             foreach (var item  in performance)
             {
-                item.estado = 4;
+                item.estado = 7;
                 db.SaveChanges();
 
                 //historial guardar si no ha cambiado previamente a feedback
-                var existe = db.Historial.Where(x => x.idPerformance == item.idPerformance && x.estado == 4).FirstOrDefault();
+                var existe = db.Historial.Where(x => x.idPerformance == item.idPerformance && x.estado == 7).FirstOrDefault();
                 if (existe == null)
                 {
                     historial.idPerformance = item.idPerformance;
-                    historial.estado = 4;
+                    historial.estado = 7;
                     historial.idUsuarioCambio = idUsuario;
                     historial.fechaCambio = DateTime.Now;
                     historial.nombreUsuarioCambio = nombreUsuario;
